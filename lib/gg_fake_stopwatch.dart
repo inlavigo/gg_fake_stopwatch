@@ -1,8 +1,4 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// A [Stopwatch] that is in sync with FakeAsync.elapsed. Use this stopwatch in tests using fakeAsync.
 library gg_fake_stopwatch;
 
-export 'src/gg_fake_stopwatch_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/gg_fake_stopwatch.dart';
