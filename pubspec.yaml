@@ -1,15 +1,13 @@
 name: gg_fake_stopwatch
 description: A stopwatch that is in sync with FakeAsync.elapsed. Use this stopwatch in tests using fakeAsync.
-version: 1.0.0+beta.1
+version: 1.0.0+beta.2
 homepage: https://github.com/inlavigo/gg_fake_stopwatch
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
 
-dependencies:
-  fake_async: ^1.3.1
-
 dev_dependencies:
+  fake_async: ^1.3.1
   pedantic: ^1.11.0
   lints: ^2.0.0
   test: ^1.16.6

@@ -4,11 +4,9 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:fake_async/fake_async.dart';
-
-/// A Stopwatch drify by FakeAsync.elapsed.
+/// A Stopwatch driven by elapsed.
 class GgFakeStopwatch implements Stopwatch {
-  GgFakeStopwatch({required this.fakeAsync});
+  GgFakeStopwatch({required Duration Function() elapsed}) : _elapsed = elapsed;
 
   @override
   int get frequency => 1000 * 1000 * 1000;
@@ -19,20 +17,20 @@ class GgFakeStopwatch implements Stopwatch {
       return;
     }
 
-    _startDuration = fakeAsync.elapsed;
+    _startDuration = _elapsed();
     _isRunning = true;
   }
 
   @override
   void stop() {
     _isRunning = false;
-    _stopDuration = fakeAsync.elapsed - _startDuration;
+    _stopDuration = _elapsed() - _startDuration;
   }
 
   @override
   void reset() {
     _stopDuration = Duration.zero;
-    _startDuration = fakeAsync.elapsed;
+    _startDuration = _elapsed();
   }
 
   @override
@@ -45,7 +43,7 @@ class GgFakeStopwatch implements Stopwatch {
       return _stopDuration;
     }
 
-    return fakeAsync.elapsed - _startDuration + _stopDuration;
+    return _elapsed() - _startDuration + _stopDuration;
   }
 
   @override
@@ -61,7 +59,7 @@ class GgFakeStopwatch implements Stopwatch {
   // Private
   // ######################
 
-  final FakeAsync fakeAsync;
+  final Duration Function() _elapsed;
   bool _isRunning = false;
   Duration _startDuration = Duration.zero;
   Duration _stopDuration = Duration.zero;

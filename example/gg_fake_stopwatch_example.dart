@@ -7,7 +7,7 @@ void ggPrint(String prefix, dynamic message) {
 
 void main() {
   fakeAsync((fakeAsync) {
-    final stopwatch = GgFakeStopwatch(fakeAsync: fakeAsync);
+    final stopwatch = GgFakeStopwatch(elapsed: () => fakeAsync.elapsed);
 
     print('Stopwatch is not started. Elapsed will be zero.');
     ggPrint('  Elapsed:', stopwatch.elapsed);

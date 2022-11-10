@@ -16,7 +16,7 @@ void main() {
     // .........................................................................
     void init(FakeAsync fk) {
       fake = fk;
-      stopwatch = GgFakeStopwatch(fakeAsync: fk);
+      stopwatch = GgFakeStopwatch(elapsed: () => fk.elapsed);
     }
 
     // .........................................................................
