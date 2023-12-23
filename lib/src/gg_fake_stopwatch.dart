@@ -6,10 +6,10 @@
 
 /// A Stopwatch driven by elapsed.
 class GgFakeStopwatch implements Stopwatch {
-  GgFakeStopwatch({required Duration Function() elapsed}) : _elapsed = elapsed;
+  GgFakeStopwatch({Duration Function()? elapsed}) : _elapsedExternal = elapsed;
 
   @override
-  int get frequency => 1000 * 1000 * 1000;
+  int get frequency => 10 * 1000 * 1000;
 
   @override
   void start() {
@@ -17,25 +17,37 @@ class GgFakeStopwatch implements Stopwatch {
       return;
     }
 
-    _startDuration = _elapsed();
+    _startDuration = _elapsed;
     _isRunning = true;
   }
 
   @override
   void stop() {
     _isRunning = false;
-    _stopDuration = _elapsed() - _startDuration;
+    _stopDuration = _elapsed - _startDuration;
   }
 
   @override
   void reset() {
     _stopDuration = Duration.zero;
-    _startDuration = _elapsed();
+    _startDuration = _elapsed;
   }
 
   @override
-  int get elapsedTicks =>
-      ((elapsed.inMicroseconds / 1000.0 / 1000.0) * frequency).toInt();
+  int get elapsedTicks => (elapsed.inMicroseconds * 10).toInt();
+
+  void elapse(Duration progress) {
+    if (_elapsedExternal != null) {
+      throw ArgumentError(
+          'Don\'t call elapse when "elapsed()" callback is set.');
+    }
+
+    if (!_isRunning) {
+      return;
+    }
+
+    _elapsedInternal += progress;
+  }
 
   @override
   Duration get elapsed {
@@ -43,7 +55,7 @@ class GgFakeStopwatch implements Stopwatch {
       return _stopDuration;
     }
 
-    return _elapsed() - _startDuration + _stopDuration;
+    return _elapsed - _startDuration + _stopDuration;
   }
 
   @override
@@ -59,8 +71,11 @@ class GgFakeStopwatch implements Stopwatch {
   // Private
   // ######################
 
-  final Duration Function() _elapsed;
+  final Duration Function()? _elapsedExternal;
+  var _elapsedInternal = Duration.zero;
   bool _isRunning = false;
   Duration _startDuration = Duration.zero;
   Duration _stopDuration = Duration.zero;
+
+  Duration get _elapsed => _elapsedExternal?.call() ?? _elapsedInternal;
 }
