@@ -91,13 +91,20 @@ void main() {
         expectMillisecondsElapsed(1000);
 
         /// Calling elapse() should throw
-        expect(() => stopwatch.elapse(Duration.zero), throwsA(predicate(
-          (ArgumentError p0) {
-            expect(p0.message,
-                'Don\'t call elapse when "elapsed()" callback is set.');
-            return true;
-          },
-        )));
+        expect(
+          () => stopwatch.elapse(Duration.zero),
+          throwsA(
+            predicate(
+              (ArgumentError p0) {
+                expect(
+                  p0.message,
+                  'Don\'t call elapse when "elapsed()" callback is set.',
+                );
+                return true;
+              },
+            ),
+          ),
+        );
 
         /// Expect stopwatch to have right frequency.
         expect(stopwatch.frequency, 10 * 1000 * 1000);
@@ -106,7 +113,7 @@ void main() {
 
     // .......................................................................
     test(
-        'should allow to use elapse() when no elapsed() constructor param'
+        'should allow to use elapse() when no elapsed() constructor param '
         'is given', () {
       fakeAsync((fake) {
         stopwatch = GgFakeStopwatch();

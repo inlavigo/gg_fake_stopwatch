@@ -6,6 +6,7 @@
 
 /// A Stopwatch driven by elapsed.
 class GgFakeStopwatch implements Stopwatch {
+  /// Creates an instance with a delegate returning the elapsed time
   GgFakeStopwatch({Duration Function()? elapsed}) : _elapsedExternal = elapsed;
 
   @override
@@ -36,10 +37,12 @@ class GgFakeStopwatch implements Stopwatch {
   @override
   int get elapsedTicks => (elapsed.inMicroseconds * 10).toInt();
 
+  /// Set the elapsed time
   void elapse(Duration progress) {
     if (_elapsedExternal != null) {
       throw ArgumentError(
-          'Don\'t call elapse when "elapsed()" callback is set.');
+        'Don\'t call elapse when "elapsed()" callback is set.',
+      );
     }
 
     if (!_isRunning) {

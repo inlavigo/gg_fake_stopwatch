@@ -1,6 +1,7 @@
+# GgFakeStopWatch
 
-The default stopwatch implementation does not work correctly when used in a `FakeAsync` callback.
-With `GgFakeStopwatch` this is sovled.
+The default stopwatch implementation does not work correctly when used in
+a `FakeAsync` callback. With `GgFakeStopwatch` this is sovled.
 
 ## Usage
 
